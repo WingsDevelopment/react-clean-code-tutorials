@@ -11,20 +11,9 @@ export type RawTokenPrices = Record<string, { usd: number }>
 async function fetchTokenPricesRaw(tokens: Address[]): Promise<RawTokenPrices> {
   const addresses = tokens.map((a) => a.toLowerCase()).join(",")
 
-  const { data } = await axios.get<RawTokenPrices>(
-    "https://api.coingecko.com/api/v3/simple/token_price/base",
-    {
-      params: {
-        contract_addresses: addresses,
-        vs_currencies: "usd",
-        precision: PRICE_PRECISION,
-      },
-      headers: {
-        accept: "application/json",
-        "x-cg-demo-api-key": process.env.NEXT_PUBLIC_COINGECKO_API_KEY ?? "",
-      },
-    },
-  )
+  const { data } = await axios.get<RawTokenPrices>("/api/token-prices", {
+    params: { addresses },
+  })
 
   return data
 }
