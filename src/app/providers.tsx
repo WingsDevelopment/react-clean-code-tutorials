@@ -1,35 +1,17 @@
 "use client"
 
 import React from "react"
-import { isServer, QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { QueryClientProvider } from "@tanstack/react-query"
 import { cookieToInitialState, WagmiProvider } from "wagmi"
 
 import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit"
 import { getWagmiConfig } from "../wagmi"
+import { getQueryClient } from "./query-client"
 ;(BigInt.prototype as any).toJSON = function () {
   return this.toString()
 }
 
-function makeQueryClient() {
-  return new QueryClient({
-    queryCache: new QueryCache({
-      onError: (e) => {
-        console.error("QueryCache(Global error handler): Error while running query", { e })
-      },
-    }),
-  })
-}
-
-let browserQueryClient: QueryClient | undefined
-
-export function getQueryClient() {
-  if (isServer) {
-    return makeQueryClient()
-  } else {
-    if (!browserQueryClient) browserQueryClient = makeQueryClient()
-    return browserQueryClient
-  }
-}
+export { getQueryClient }
 
 export function Providers({
   children,
