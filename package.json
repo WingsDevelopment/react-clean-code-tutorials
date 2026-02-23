@@ -5,29 +5,44 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:vercel": "npm run build-storybook-public && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "node scripts/fix-noble-curves-dts.mjs",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook-public": "rm -rf public/storybook && npm run build-storybook && cp -R storybook-static public/storybook",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@base-ui-components/react": "^1.0.0-rc.0",
+    "@fortawesome/fontawesome-svg-core": "^7.2.0",
+    "@fortawesome/free-solid-svg-icons": "^7.2.0",
+    "@fortawesome/react-fontawesome": "^3.2.0",
     "@metamask/sdk": "^0.34.0",
     "@rainbow-me/rainbowkit": "^2.2.10",
     "@tanstack/react-query": "latest",
     "axios": "^1.13.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "next": "latest",
     "react": "latest",
-    "react-display-value": "0.2.0",
     "react-dom": "latest",
     "tailwind-merge": "^3.4.0",
     "viem": "latest",
-    "wagmi": "latest"
+    "wagmi": "latest",
+    "web3-display-components": "^0.2.1",
+    "web3-robust-formatting": "^0.2.2"
   },
   "devDependencies": {
+    "@storybook/addon-docs": "^10.2.10",
+    "@storybook/nextjs": "^10.2.10",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^24.10.1",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "@wagmi/cli": "latest",
     "postcss": "^8.5.6",
+    "storybook": "^10.2.10",
     "tailwindcss": "^4.1.18",
     "typescript": "latest"
   }

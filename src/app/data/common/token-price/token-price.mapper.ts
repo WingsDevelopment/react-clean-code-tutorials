@@ -1,5 +1,5 @@
 import { Address } from "viem"
-import { formatNumberToViewNumber, ViewNumber } from "react-display-value"
+import { formatNumberToViewNumber, type ViewNumber } from "web3-robust-formatting"
 
 import { fetchTokenPrices, PRICE_PRECISION, RawTokenPrices } from "./token-price.fetch"
 

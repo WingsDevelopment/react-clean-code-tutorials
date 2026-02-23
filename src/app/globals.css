@@ -1,16 +1,21 @@
 @import "tailwindcss";
-
-@source "../../node_modules/react-display-value/dist/**/*.js";
+@source "../../node_modules/web3-display-components/dist";
 
 @theme {
-  --color-background-600: oklch(93.438% 0.09597 103.616 / 0.5);
-  --color-background-800: oklch(91.367% 0.10927 128.34 / 0.5);
+  --color-background-300: #0b1220;
+  --color-background-400: #121a2a;
+  --color-background-500: #1e293b;
+  --color-background-600: #334155;
+  --color-background-700: #475569;
+  --color-background-800: #64748b;
 }
 
 :root {
-  background-color: #181818;
-  color: rgba(255, 255, 255, 0.87);
-  color-scheme: light dark;
+  --tooltip-shadow: 0 14px 32px rgba(2, 6, 23, 0.5);
+
+  background-color: #020617;
+  color: #e2e8f0;
+  color-scheme: dark;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-synthesis: none;
   font-weight: 400;
@@ -22,9 +27,17 @@
   -webkit-text-size-adjust: 100%;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    background-color: #f8f8f8;
-    color: #181818;
-  }
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+.typography-mono1 {
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  line-height: 1rem;
+  text-transform: uppercase;
 }

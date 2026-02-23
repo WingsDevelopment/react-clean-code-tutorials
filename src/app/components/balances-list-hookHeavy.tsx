@@ -2,7 +2,7 @@
 
 import { Address } from "viem"
 import { useAccount } from "wagmi"
-import { DisplayTokenAmount, DisplayTokenValue } from "react-display-value"
+import { DisplayTokenAmount, DisplayTokenValue } from "web3-display-components"
 
 import { useDisplayBalancesWithHooks } from "@/app/data/wallet/balances/balances.hookHeavy"
 import { useSimulationSettings } from "@app/context/simulation-settings"

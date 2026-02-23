@@ -4,9 +4,9 @@ import { Address, formatUnits } from "viem"
 import {
   formatBigIntToViewTokenAmount,
   formatNumberToViewNumber,
-  ViewBigInt,
-  ViewNumber,
-} from "react-display-value"
+  type ViewBigInt,
+  type ViewNumber,
+} from "web3-robust-formatting"
 
 import { fetchTokenBalance } from "../balance/balance.fetch"
 import { fetchTokenSymbol } from "@app/data/common/token/symbol/symbol.fetch"

@@ -1,5 +1,5 @@
 import { Address } from "viem"
-import { formatBigIntToViewTokenAmount, ViewBigInt } from "react-display-value"
+import { formatBigIntToViewTokenAmount, type ViewBigInt } from "web3-robust-formatting"
 
 import { fetchTokenBalance } from "./balance.fetch"
 import { fetchTokenDecimals } from "@app/data/common/token/decimals/decimals.fetch"

@@ -1,5 +1,5 @@
 import { Address, formatUnits } from "viem"
-import { formatNumberToViewNumber, ViewNumber } from "react-display-value"
+import { formatNumberToViewNumber, type ViewNumber } from "web3-robust-formatting"
 
 import { safeCall, SafeResult } from "@app/lib/utils/safe-call"
 import {
