@@ -63,7 +63,7 @@ export function VaultRow({ row, queryState }: VaultRowProps) {
   return (
     <tr className="border-t border-slate-800/90 align-top">
       <td className="px-4 py-3">
-        <div className="space-y-1">
+        <div>
           <p>
             <DisplayText
               property={{ value: row?.name }}
@@ -72,12 +72,14 @@ export function VaultRow({ row, queryState }: VaultRowProps) {
               skeletonWidth={176}
             />
           </p>
-          <DisplayText
-            property={{ value: row?.chain }}
-            queryState={queryState}
-            valueClassName="text-xs text-slate-400"
-            skeletonWidth={80}
-          />
+          <p>
+            <DisplayText
+              property={{ value: row?.chain }}
+              queryState={queryState}
+              valueClassName="text-xs text-slate-400"
+              skeletonWidth={80}
+            />
+          </p>
           <DisplayText
             property={{ value: row?.note }}
             queryState={queryState}
