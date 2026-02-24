@@ -121,7 +121,7 @@ function DisplayValueEmptyCell() {
       aria-hidden="true"
       className="mb-0.5 inline-flex items-center justify-center align-middle"
     >
-      <span className="inline-block h-0.5 w-4 translate-y-[0.5px] bg-text-secondary/70" />
+      <span className="inline-block h-0.5 w-4 translate-y-[0.5px] bg-slate-400" />
     </span>
   )
 }
