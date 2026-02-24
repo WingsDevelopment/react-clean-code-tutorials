@@ -40,6 +40,7 @@ export function DisplayTokenAmountField({
       {...resolvedErrorState}
       {...injectedComponents}
       {...property?.value}
+      symbolClassName="mx-0.5"
     />
   )
 }
