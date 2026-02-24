@@ -22,6 +22,7 @@ export default function MockVaultsPage() {
   const { data, isLoading, isPending, isError } = query
 
   const rows = data?.rows ?? []
+  const activeQueryState = isLoading || isPending || isError ? query : undefined
 
   const shouldRenderLoadingRows = rows.length === 0 && (isLoading || isPending)
   const shouldRenderErrorFallback = rows.length === 0 && isError && !shouldRenderLoadingRows
@@ -59,14 +60,14 @@ export default function MockVaultsPage() {
             <tbody>
               {shouldRenderLoadingRows &&
                 buildLoadingRowKeys(LOADING_ROW_COUNT).map((key) => (
-                  <VaultRow key={key} queryState={query} />
+                  <VaultRow key={key} queryState={activeQueryState} />
                 ))}
 
               {!shouldRenderLoadingRows &&
-                rows.map((row) => <VaultRow key={row.id} row={row} queryState={query} />)}
+                rows.map((row) => <VaultRow key={row.id} row={row} queryState={activeQueryState} />)}
 
               {shouldRenderErrorFallback && (
-                <VaultRow key="error-fallback" queryState={query} />
+                <VaultRow key="error-fallback" queryState={activeQueryState} />
               )}
             </tbody>
           </table>

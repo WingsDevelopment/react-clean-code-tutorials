@@ -1,42 +1,16 @@
 import {
-  DisplayPercentRobust,
+  DisplayPercentage,
   type DisplayValueProps,
   type QueryResponse,
   type RobustDisplayValue,
 } from "web3-display-components"
 import type { ViewPercent } from "web3-robust-formatting"
-import { getDisplayValueInjectedComponents, resolveDisplayErrorState } from "./DisplayValue"
+import {
+  getDisplayValueInjectedComponents,
+  resolveDisplayErrorState,
+} from "./DisplayValue"
 
-type PercentageViewValue = ViewPercent
-
-function stripDuplicatedSign(
-  value: PercentageViewValue | undefined,
-): PercentageViewValue | undefined {
-  if (!value) {
-    return value
-  }
-
-  const sign = typeof value.sign === "string" ? value.sign : ""
-  const viewValue = typeof value.viewValue === "string" ? value.viewValue : undefined
-
-  if (!sign || !viewValue) {
-    return value
-  }
-
-  const trimmed = viewValue.trimStart()
-  const leadingWhitespace = viewValue.slice(0, viewValue.length - trimmed.length)
-
-  if (!trimmed.startsWith(sign)) {
-    return value
-  }
-
-  return {
-    ...value,
-    viewValue: `${leadingWhitespace}${trimmed.slice(sign.length)}`,
-  }
-}
-
-interface DisplayPercentageFieldProps extends Omit<
+interface DisplayPercentValueProps extends Omit<
   DisplayValueProps,
   | "viewValue"
   | "isError"
@@ -47,51 +21,34 @@ interface DisplayPercentageFieldProps extends Omit<
   | "ErrorIconComponent"
 > {
   queryState?: QueryResponse
-  property?: RobustDisplayValue<PercentageViewValue>
-  value?: PercentageViewValue
-  warnings?: string[]
-  errors?: string[]
+  property?: RobustDisplayValue<ViewPercent>
 }
 
 /**
  * Wrapper for percentage values with app-level tooltip/icon injection.
- * Uses DisplayPercentRobust internally and accepts either `property`
- * or `{ value, warnings, errors }` shape.
+ * Keeps page components free from direct DisplayPercentage usage.
  */
-export function DisplayPercentageField({
+export function DisplayPercentValue({
   queryState,
   property,
-  value,
-  warnings,
-  errors,
   ...props
-}: DisplayPercentageFieldProps) {
-  const resolvedProperty =
-    property ??
-    (warnings !== undefined || errors !== undefined || value !== undefined
-      ? { value, warnings, errors }
-      : undefined)
-
-  const normalizedValue = stripDuplicatedSign(
-    resolvedProperty?.value as PercentageViewValue | undefined,
+}: DisplayPercentValueProps) {
+  const { severity, ...resolvedErrorState } = resolveDisplayErrorState(
+    queryState,
+    property,
   )
-  const normalizedProperty =
-    resolvedProperty == null
-      ? undefined
-      : {
-          ...resolvedProperty,
-          value: normalizedValue,
-        }
-
-  const { severity } = resolveDisplayErrorState(queryState, normalizedProperty)
   const injectedComponents = getDisplayValueInjectedComponents(severity)
 
   return (
-    <DisplayPercentRobust
-      queryState={queryState}
-      property={normalizedProperty}
+    <DisplayPercentage
+      {...queryState}
       {...props}
+      {...resolvedErrorState}
       {...injectedComponents}
+      {...property?.value}
     />
   )
 }
+
+export type DisplayPercentageFieldProps = DisplayPercentValueProps
+export const DisplayPercentageField = DisplayPercentValue

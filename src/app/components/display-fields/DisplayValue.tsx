@@ -25,6 +25,32 @@ export interface DisplayValueFieldProps extends Omit<
   property?: RobustDisplayValue<string>
 }
 
+function dedupeNonEmptyLines(lines: Array<string | undefined>): string[] {
+  return Array.from(
+    new Set(
+      lines
+        .map((line) => line?.trim())
+        .filter((line): line is string => Boolean(line && line.length > 0)),
+    ),
+  )
+}
+
+function extractQueryErrorMessage(queryState?: QueryResponse): string | undefined {
+  const queryErrorMessage =
+    typeof queryState?.errorMessage === "string"
+      ? queryState.errorMessage
+      : undefined
+  const queryErrorFromObject =
+    queryState?.error instanceof Error
+      ? queryState.error.message
+      : typeof queryState?.error === "string"
+      ? queryState.error
+      : undefined
+
+  const lines = dedupeNonEmptyLines([queryErrorMessage, queryErrorFromObject])
+  return lines.length > 0 ? lines.join("\n") : undefined
+}
+
 /**
  * Resolves robust property metadata + query state into DisplayValue error props.
  * - hard errors: icon only
@@ -34,7 +60,24 @@ export function resolveDisplayErrorState<T>(
   queryState?: QueryResponse,
   property?: RobustDisplayValue<T>,
 ): ResolvedDisplayErrorState {
-  return resolveDisplayErrorStateBase(queryState, property)
+  const resolved = resolveDisplayErrorStateBase(queryState, property)
+  const queryErrorMessage = extractQueryErrorMessage(queryState)
+  const hasQueryStateError = Boolean(queryState?.isError || queryErrorMessage)
+
+  if (!hasQueryStateError) {
+    return resolved
+  }
+
+  const normalizedQueryErrorMessage = queryErrorMessage ?? "Query request failed."
+
+  return {
+    ...resolved,
+    isError: true,
+    displayErrorAndValue: false,
+    error: queryState?.error ?? new Error(normalizedQueryErrorMessage),
+    errorMessage: normalizedQueryErrorMessage,
+    severity: "error",
+  }
 }
 
 function DisplayValueTooltip({ trigger, message }: { trigger: React.ReactNode; message: string }) {
@@ -45,14 +88,8 @@ function DisplayValueTooltip({ trigger, message }: { trigger: React.ReactNode; m
   return (
     <Tooltip delayDuration={100}>
       <TooltipTrigger>{trigger}</TooltipTrigger>
-      <TooltipContent
-        side="top"
-        size="small"
-        className="w-[min(24rem,calc(100vw-2rem))] max-w-[24rem]"
-      >
-        <span className="block whitespace-pre-line break-words text-sm leading-snug text-slate-100">
-          {message}
-        </span>
+      <TooltipContent side="top" size="small">
+        <span className="typography-body2 whitespace-pre-line text-text-primary">{message}</span>
       </TooltipContent>
     </Tooltip>
   )
@@ -84,7 +121,7 @@ function DisplayValueEmptyCell() {
       aria-hidden="true"
       className="mb-0.5 inline-flex items-center justify-center align-middle"
     >
-      <span className="inline-block h-0.5 w-4 translate-y-[0.5px] bg-slate-400/70" />
+      <span className="inline-block h-0.5 w-4 translate-y-[0.5px] bg-text-secondary/70" />
     </span>
   )
 }

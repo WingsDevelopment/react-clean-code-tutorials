@@ -1,5 +1,6 @@
 import type { QueryResponse } from "web3-display-components"
 import {
+  DisplayText,
   DisplayPercentageField,
   DisplayTokenAmountField,
   DisplayTokenValueField,
@@ -38,17 +39,15 @@ function AmountWithUsd({
     <div className="space-y-1">
       <div className="text-sm font-semibold tabular-nums text-slate-100">
         <DisplayTokenAmountField
-          {...tokenAmount}
-          {...tokenAmountQueryState}
-          {...queryState}
+          property={tokenAmount}
+          queryState={{ ...tokenAmountQueryState, ...queryState }}
           symbolClassName="text-slate-300"
         />
       </div>
       <div className="text-xs tabular-nums text-slate-400">
         <DisplayTokenValueField
           property={usdValue}
-          {...usdQueryState}
-          {...queryState}
+          queryState={{ ...usdQueryState, ...queryState }}
           symbolClassName="text-slate-500"
         />
       </div>
@@ -65,30 +64,34 @@ export function VaultRow({ row, queryState }: VaultRowProps) {
     <tr className="border-t border-slate-800/90 align-top">
       <td className="px-4 py-3">
         <div className="space-y-1">
-          {row?.name ? (
-            <p className="text-sm font-semibold text-slate-100">{row.name}</p>
-          ) : (
-            <span className="block h-4 w-44 animate-pulse rounded bg-slate-800/90" />
-          )}
-          {row?.chain ? (
-            <p className="text-xs text-slate-400">{row.chain}</p>
-          ) : (
-            <span className="block h-3 w-20 animate-pulse rounded bg-slate-800/70" />
-          )}
-          {row?.note ? (
-            <p className="text-xs leading-snug text-slate-500">{row.note}</p>
-          ) : (
-            <span className="block h-3 w-[18rem] animate-pulse rounded bg-slate-800/60" />
-          )}
+          <p>
+            <DisplayText
+              property={{ value: row?.name }}
+              queryState={queryState}
+              valueClassName="text-sm font-semibold text-slate-100"
+              skeletonWidth={176}
+            />
+          </p>
+          <DisplayText
+            property={{ value: row?.chain }}
+            queryState={queryState}
+            valueClassName="text-xs text-slate-400"
+            skeletonWidth={80}
+          />
+          <DisplayText
+            property={{ value: row?.note }}
+            queryState={queryState}
+            valueClassName="text-xs leading-snug text-slate-500"
+            skeletonWidth={288}
+          />
         </div>
       </td>
 
       <td className="px-4 py-3">
         <div className="text-sm font-semibold tabular-nums text-slate-100">
           <DisplayPercentageField
-            {...row?.supplyApy}
-            {...row?.supplyApyQueryState}
-            {...queryState}
+            property={row?.supplyApy}
+            queryState={{ ...row?.supplyApyQueryState, ...queryState }}
             symbolClassName="text-slate-300"
           />
         </div>
@@ -107,9 +110,8 @@ export function VaultRow({ row, queryState }: VaultRowProps) {
       <td className="px-4 py-3">
         <div className="text-sm font-semibold tabular-nums text-slate-100">
           <DisplayPercentageField
-            {...row?.utilization}
-            {...row?.utilizationQueryState}
-            {...queryState}
+            property={row?.utilization}
+            queryState={{ ...row?.utilizationQueryState, ...queryState }}
             symbolClassName="text-slate-300"
           />
         </div>

@@ -24,9 +24,6 @@ const meta: Meta<typeof DisplayTokenValueField> = {
   tags: ["autodocs"],
   argTypes: {
     property: { control: false },
-    value: { control: false },
-    warnings: { control: false },
-    errors: { control: false },
     queryState: { control: false },
     valueClassName: { control: "text" },
     symbolClassName: { control: "text" },
@@ -71,7 +68,7 @@ export const Playground: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...args} {...formattedResult} />
+        <DisplayTokenValueField {...args} property={formattedResult} />
       </h5>
     )
   },
@@ -86,7 +83,7 @@ export const FormatSmallAmount: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -101,7 +98,7 @@ export const FormatMidAmount: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -116,7 +113,7 @@ export const FormatTenThousandPlusUsd: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -131,7 +128,7 @@ export const FormatOneMillionPlusUsd: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -146,7 +143,7 @@ export const FormatBigCompactAmount: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -161,7 +158,7 @@ export const FormatZeroAmount: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -176,7 +173,7 @@ export const FormatWrappedInHeading: Story = {
 
     return (
       <h5 className="text-3xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -191,7 +188,7 @@ export const FormatGraySymbolOnly: Story = {
 
     return (
       <h5 className="text-3xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} symbolClassName="text-slate-400" />
+        <DisplayTokenValueField property={formattedResult} symbolClassName="text-slate-400" />
       </h5>
     )
   },
@@ -206,7 +203,7 @@ export const FormatLongSymbolTruncation: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} symbolMaxChars={8} />
+        <DisplayTokenValueField property={formattedResult} symbolMaxChars={8} />
       </h5>
     )
   },
@@ -221,7 +218,7 @@ export const EdgeNegativeSingleMinus: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -240,7 +237,7 @@ export const EdgeBelowMinIndicator: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -259,7 +256,7 @@ export const EdgeAboveMaxIndicator: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -274,7 +271,7 @@ export const WarningCoercionStringValue: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -289,7 +286,7 @@ export const WarningCoercionBigIntValue: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -305,7 +302,7 @@ export const WarningMissingRequiredValue: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -321,7 +318,7 @@ export const WarningMissingRequiredValueNull: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -337,7 +334,7 @@ export const WarningMissingRequiredSymbol: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -352,7 +349,7 @@ export const ErrorInvalidValueString: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -367,7 +364,7 @@ export const ErrorUnsupportedValueType: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -382,7 +379,7 @@ export const ErrorInvalidValueNumberInfinity: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -397,7 +394,7 @@ export const ErrorInvalidValueNumberNaN: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -412,7 +409,7 @@ export const ErrorUnsupportedSymbolType: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -428,7 +425,7 @@ export const ErrorOptionsStandardDecimalsNegative: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -444,7 +441,7 @@ export const ErrorOptionsCompactDecimalsOutOfRange: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -461,7 +458,7 @@ export const ErrorMissingValueAsHardError: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -476,8 +473,7 @@ export const QueryErrorMessageOnly: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField
-          {...formattedResult}
+        <DisplayTokenValueField property={formattedResult}
           queryState={{
             isError: true,
             errorMessage: "Price API is temporarily unavailable.",
@@ -497,8 +493,7 @@ export const QueryErrorFromErrorObject: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField
-          {...formattedResult}
+        <DisplayTokenValueField property={formattedResult}
           queryState={{
             isError: true,
             error: new Error("RPC provider timeout while fetching token value."),
@@ -518,8 +513,7 @@ export const QueryErrorOverridesPropertyWarning: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField
-          {...formattedResult}
+        <DisplayTokenValueField property={formattedResult}
           queryState={{
             isError: true,
             errorMessage: "Query layer failed after coercion warning.",
@@ -539,8 +533,7 @@ export const QueryErrorWithPropertyHardError: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField
-          {...formattedResult}
+        <DisplayTokenValueField property={formattedResult}
           queryState={{
             isError: true,
             error: new Error("Transport failed before fallback."),
@@ -560,7 +553,7 @@ export const PartialDataMissingValueNoDiagnostics: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -579,9 +572,11 @@ export const PartialDataMissingSymbolStillRendersValue: Story = {
     return (
       <h5 className="text-2xl font-semibold leading-none">
         <DisplayTokenValueField
-          value={valueWithoutSymbol}
-          warnings={formattedResult.warnings}
-          errors={formattedResult.errors}
+          property={{
+            value: valueWithoutSymbol,
+            warnings: formattedResult.warnings,
+            errors: formattedResult.errors,
+          }}
         />
       </h5>
     )
@@ -597,8 +592,7 @@ export const LoadingBodySkeleton: Story = {
 
     return (
       <p className="text-base">
-        <DisplayTokenValueField
-          {...formattedResult}
+        <DisplayTokenValueField property={formattedResult}
           queryState={{ ...LOADING_QUERY_STATE }}
           loaderSkeleton
           skeletonWidth={120}
@@ -617,8 +611,7 @@ export const LoadingHeadingSkeleton: Story = {
 
     return (
       <h5 className="text-3xl font-semibold leading-none">
-        <DisplayTokenValueField
-          {...formattedResult}
+        <DisplayTokenValueField property={formattedResult}
           queryState={{ ...LOADING_QUERY_STATE }}
           loaderSkeleton
           skeletonWidth={220}
@@ -637,8 +630,7 @@ export const PendingSpinner: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField
-          {...formattedResult}
+        <DisplayTokenValueField property={formattedResult}
           queryState={{ ...PENDING_QUERY_STATE }}
           loaderSkeleton={false}
         />
@@ -657,7 +649,7 @@ export const FormatOptionsStandardDecimals4: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -673,7 +665,7 @@ export const FormatLocaleDeDEGrouping: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -689,7 +681,7 @@ export const FormatCompactThresholdForced: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -705,7 +697,7 @@ export const FormatMinDisplaySmaller: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -721,7 +713,7 @@ export const FormatMaxDisplayCap: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -737,7 +729,7 @@ export const OverrideRequiredFieldsEmptyNoDiagnostics: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
@@ -752,8 +744,7 @@ export const QueryErrorFromStringPayload: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField
-          {...formattedResult}
+        <DisplayTokenValueField property={formattedResult}
           queryState={{
             isError: true,
             error: "RPC returned a string error payload.",
@@ -783,7 +774,7 @@ export const DisplayPrefixAndIndicatorCustom: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} prefix="≈" indicator="~" />
+        <DisplayTokenValueField property={formattedResult} prefix="≈" indicator="~" />
       </h5>
     )
   },
@@ -798,7 +789,7 @@ export const DisplaySymbolPositionAfter: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} symbolPosition="after" />
+        <DisplayTokenValueField property={formattedResult} symbolPosition="after" />
       </h5>
     )
   },
@@ -813,7 +804,7 @@ export const WarningDisplayErrorBeforeValue: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} errorPossition="before" />
+        <DisplayTokenValueField property={formattedResult} errorPossition="before" />
       </h5>
     )
   },
@@ -828,7 +819,7 @@ export const FormatEuroSymbol: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayTokenValueField {...formattedResult} />
+        <DisplayTokenValueField property={formattedResult} />
       </h5>
     )
   },
