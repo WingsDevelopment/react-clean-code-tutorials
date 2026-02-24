@@ -1,5 +1,4 @@
 import type { QueryResponse } from "web3-display-components"
-import type { RobustFormattingResult } from "web3-robust-formatting"
 import {
   DisplayPercentageField,
   DisplayTokenAmountField,
@@ -7,15 +6,14 @@ import {
 } from "@/app/components/display-fields"
 import type {
   MockVaultDisplayRow,
-  PercentDisplay,
   TokenAmountDisplay,
   TokenValueDisplay,
 } from "@/app/data/vaults/vaults.types"
 
 interface AmountWithUsdProps {
-  tokenAmount: TokenAmountDisplay
+  tokenAmount?: TokenAmountDisplay
   tokenAmountQueryState?: QueryResponse
-  usdValue: TokenValueDisplay
+  usdValue?: TokenValueDisplay
   usdQueryState?: QueryResponse
   queryState?: QueryResponse
 }
@@ -26,42 +24,8 @@ interface VaultRowProps {
 }
 
 /**
- * Creates an empty robust display payload for placeholder rows.
- * Keeps the row component shape identical in loading and loaded states.
- */
-function createEmptyDisplayResult<T>(): RobustFormattingResult<T> {
-  return {
-    value: undefined,
-    warnings: [],
-    errors: [],
-  }
-}
-
-/**
- * Merges global query state from useVaults with optional field-level state.
- * Field-level error payloads win over global ones to preserve row-specific detail.
- */
-function mergeQueryState(
-  globalQueryState?: QueryResponse,
-  fieldQueryState?: QueryResponse,
-): QueryResponse | undefined {
-  if (!globalQueryState && !fieldQueryState) {
-    return undefined
-  }
-
-  return {
-    isLoading: Boolean(globalQueryState?.isLoading || fieldQueryState?.isLoading),
-    isPending: Boolean(globalQueryState?.isPending || fieldQueryState?.isPending),
-    isFetched: Boolean(globalQueryState?.isFetched || fieldQueryState?.isFetched),
-    isError: Boolean(globalQueryState?.isError || fieldQueryState?.isError),
-    errorMessage: fieldQueryState?.errorMessage ?? globalQueryState?.errorMessage,
-    error: fieldQueryState?.error ?? globalQueryState?.error,
-  }
-}
-
-/**
  * Renders token amount and USD value stacked in one table cell.
- * Both display components receive merged hook + field query states.
+ * Field query state is spread first, then global query state last.
  */
 function AmountWithUsd({
   tokenAmount,
@@ -75,23 +39,17 @@ function AmountWithUsd({
       <div className="text-sm font-semibold tabular-nums text-slate-100">
         <DisplayTokenAmountField
           {...tokenAmount}
-          queryState={mergeQueryState(queryState, tokenAmountQueryState)}
-          valueClassName="tracking-tight"
+          {...tokenAmountQueryState}
+          {...queryState}
           symbolClassName="text-slate-300"
-          loaderSkeleton
-          skeletonWidth={88}
         />
       </div>
       <div className="text-xs tabular-nums text-slate-400">
         <DisplayTokenValueField
-          value={usdValue.value}
-          warnings={usdValue.warnings}
-          errors={usdValue.errors}
-          queryState={mergeQueryState(queryState, usdQueryState)}
-          valueClassName="tracking-tight"
+          property={usdValue}
+          {...usdQueryState}
+          {...queryState}
           symbolClassName="text-slate-500"
-          loaderSkeleton
-          skeletonWidth={96}
         />
       </div>
     </div>
@@ -103,11 +61,6 @@ function AmountWithUsd({
  * The same component is used for loading rows and hydrated mapped rows.
  */
 export function VaultRow({ row, queryState }: VaultRowProps) {
-  const fallbackSupplyApy: PercentDisplay = createEmptyDisplayResult()
-  const fallbackUtilization: PercentDisplay = createEmptyDisplayResult()
-  const fallbackTokenAmount: TokenAmountDisplay = createEmptyDisplayResult()
-  const fallbackTokenValue: TokenValueDisplay = createEmptyDisplayResult()
-
   return (
     <tr className="border-t border-slate-800/90 align-top">
       <td className="px-4 py-3">
@@ -133,21 +86,19 @@ export function VaultRow({ row, queryState }: VaultRowProps) {
       <td className="px-4 py-3">
         <div className="text-sm font-semibold tabular-nums text-slate-100">
           <DisplayPercentageField
-            {...(row?.supplyApy ?? fallbackSupplyApy)}
-            queryState={mergeQueryState(queryState, row?.supplyApyQueryState)}
-            valueClassName="tracking-tight"
+            {...row?.supplyApy}
+            {...row?.supplyApyQueryState}
+            {...queryState}
             symbolClassName="text-slate-300"
-            loaderSkeleton
-            skeletonWidth={72}
           />
         </div>
       </td>
 
       <td className="px-4 py-3">
         <AmountWithUsd
-          tokenAmount={row?.totalSupplyAmount ?? fallbackTokenAmount}
+          tokenAmount={row?.totalSupplyAmount}
           tokenAmountQueryState={row?.totalSupplyAmountQueryState}
-          usdValue={row?.totalSupplyUsd ?? fallbackTokenValue}
+          usdValue={row?.totalSupplyUsd}
           usdQueryState={row?.totalSupplyUsdQueryState}
           queryState={queryState}
         />
@@ -156,21 +107,19 @@ export function VaultRow({ row, queryState }: VaultRowProps) {
       <td className="px-4 py-3">
         <div className="text-sm font-semibold tabular-nums text-slate-100">
           <DisplayPercentageField
-            {...(row?.utilization ?? fallbackUtilization)}
-            queryState={mergeQueryState(queryState, row?.utilizationQueryState)}
-            valueClassName="tracking-tight"
+            {...row?.utilization}
+            {...row?.utilizationQueryState}
+            {...queryState}
             symbolClassName="text-slate-300"
-            loaderSkeleton
-            skeletonWidth={72}
           />
         </div>
       </td>
 
       <td className="px-4 py-3">
         <AmountWithUsd
-          tokenAmount={row?.inWalletAmount ?? fallbackTokenAmount}
+          tokenAmount={row?.inWalletAmount}
           tokenAmountQueryState={row?.inWalletAmountQueryState}
-          usdValue={row?.inWalletUsd ?? fallbackTokenValue}
+          usdValue={row?.inWalletUsd}
           usdQueryState={row?.inWalletUsdQueryState}
           queryState={queryState}
         />
