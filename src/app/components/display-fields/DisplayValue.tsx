@@ -5,25 +5,19 @@ import * as React from "react"
 import {
   DisplayValue,
   resolveDisplayErrorState as resolveDisplayErrorStateBase,
-  type DisplayValueProps,
-  type QueryResponse,
-  type ResolvedDisplayErrorState,
-  type RobustDisplayValue,
+  resolvePropertyDisplayProps,
 } from "web3-display-components"
 
-export interface DisplayValueFieldProps extends Omit<
-  DisplayValueProps,
-  | "viewValue"
-  | "isError"
-  | "error"
-  | "errorMessage"
-  | "displayErrorAndValue"
-  | "TooltipComponent"
-  | "ErrorIconComponent"
-> {
-  queryState?: QueryResponse
-  property?: RobustDisplayValue<string>
+export interface LocalRobustDisplayValue<T> {
+  value?: T | null
+  warnings?: string[] | null
+  errors?: string[] | null
 }
+
+export type DisplayFieldRobustProps<T = unknown> =
+  React.ComponentProps<typeof DisplayValue> & Partial<LocalRobustDisplayValue<T>>
+
+export type DisplayValueFieldProps = DisplayFieldRobustProps<unknown>
 
 function dedupeNonEmptyLines(lines: Array<string | undefined>): string[] {
   return Array.from(
@@ -35,34 +29,58 @@ function dedupeNonEmptyLines(lines: Array<string | undefined>): string[] {
   )
 }
 
-function extractQueryErrorMessage(queryState?: QueryResponse): string | undefined {
+function extractQueryErrorMessage(props: React.ComponentProps<typeof DisplayValue>): string | undefined {
   const queryErrorMessage =
-    typeof queryState?.errorMessage === "string"
-      ? queryState.errorMessage
-      : undefined
+    typeof props.errorMessage === "string" ? props.errorMessage : undefined
   const queryErrorFromObject =
-    queryState?.error instanceof Error
-      ? queryState.error.message
-      : typeof queryState?.error === "string"
-      ? queryState.error
+    props.error instanceof Error
+      ? props.error.message
+      : typeof props.error === "string"
+      ? props.error
       : undefined
 
   const lines = dedupeNonEmptyLines([queryErrorMessage, queryErrorFromObject])
   return lines.length > 0 ? lines.join("\n") : undefined
 }
 
+function extractProperty<T>(props: DisplayFieldRobustProps<T>): LocalRobustDisplayValue<T> | undefined {
+  const hasValue = "value" in props
+  const hasWarnings = "warnings" in props
+  const hasErrors = "errors" in props
+
+  if (!hasValue && !hasWarnings && !hasErrors) {
+    return undefined
+  }
+
+  return {
+    value: props.value as T | undefined,
+    warnings: Array.isArray(props.warnings) ? props.warnings : [],
+    errors: Array.isArray(props.errors) ? props.errors : [],
+  }
+}
+
 /**
- * Resolves robust property metadata + query state into DisplayValue error props.
+ * Resolves robust value metadata + query state from flat display props.
  * - hard errors: icon only
  * - warnings with value: value + icon
  */
 export function resolveDisplayErrorState<T>(
-  queryState?: QueryResponse,
-  property?: RobustDisplayValue<T>,
-): ResolvedDisplayErrorState {
+  props: DisplayFieldRobustProps<T>,
+): ReturnType<typeof resolveDisplayErrorStateBase> {
+  const queryState =
+    props.isError != null || props.error != null || props.errorMessage != null
+      ? {
+          isError: props.isError,
+          error: props.error,
+          errorMessage: props.errorMessage,
+        }
+      : undefined
+
+  const property = extractProperty(props)
   const resolved = resolveDisplayErrorStateBase(queryState, property)
-  const queryErrorMessage = extractQueryErrorMessage(queryState)
-  const hasQueryStateError = Boolean(queryState?.isError || queryErrorMessage)
+
+  const queryErrorMessage = extractQueryErrorMessage(props)
+  const hasQueryStateError = Boolean(props.isError || queryErrorMessage)
 
   if (!hasQueryStateError) {
     return resolved
@@ -74,7 +92,7 @@ export function resolveDisplayErrorState<T>(
     ...resolved,
     isError: true,
     displayErrorAndValue: false,
-    error: queryState?.error ?? new Error(normalizedQueryErrorMessage),
+    error: props.error ?? new Error(normalizedQueryErrorMessage),
     errorMessage: normalizedQueryErrorMessage,
     severity: "error",
   }
@@ -140,18 +158,30 @@ export function getDisplayValueInjectedComponents(severity: "none" | "warning" |
 
 /**
  * Local DisplayValue wrapper with app-level tooltip/error icon + robust error behavior.
+ * Accepts flat props: DisplayValueProps + optional value/warnings/errors.
  */
-export function DisplayValueField({ queryState, property, ...props }: DisplayValueFieldProps) {
-  const { severity, ...resolvedErrorState } = resolveDisplayErrorState(queryState, property)
+export function DisplayValueField({
+  value,
+  warnings,
+  errors,
+  ...props
+}: DisplayValueFieldProps) {
+  const resolvedInput = {
+    ...props,
+    value,
+    warnings,
+    errors,
+  }
+
+  const { severity, ...resolvedErrorState } = resolveDisplayErrorState(resolvedInput)
   const injectedComponents = getDisplayValueInjectedComponents(severity)
 
   return (
     <DisplayValue
-      {...queryState}
+      {...resolvePropertyDisplayProps(value)}
       {...props}
       {...resolvedErrorState}
       {...injectedComponents}
-      viewValue={property?.value}
     />
   )
 }

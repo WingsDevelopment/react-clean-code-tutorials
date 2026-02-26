@@ -26,7 +26,7 @@ interface VaultRowProps {
 
 /**
  * Renders token amount and USD value stacked in one table cell.
- * Field query state is spread first, then global query state last.
+ * Spread order is: field robust payload -> field query state -> global query state.
  */
 function AmountWithUsd({
   tokenAmount,
@@ -39,15 +39,17 @@ function AmountWithUsd({
     <div className="space-y-1">
       <div className="text-sm font-semibold tabular-nums text-slate-100">
         <DisplayTokenAmountField
-          property={tokenAmount}
-          queryState={{ ...tokenAmountQueryState, ...queryState }}
+          {...tokenAmount}
+          {...tokenAmountQueryState}
+          {...queryState}
           symbolClassName="text-slate-300"
         />
       </div>
       <div className="text-xs tabular-nums text-slate-400">
         <DisplayTokenValueField
-          property={usdValue}
-          queryState={{ ...usdQueryState, ...queryState }}
+          {...usdValue}
+          {...usdQueryState}
+          {...queryState}
           symbolClassName="text-slate-500"
         />
       </div>
@@ -66,23 +68,23 @@ export function VaultRow({ row, queryState }: VaultRowProps) {
         <div>
           <p>
             <DisplayText
-              property={{ value: row?.name }}
-              queryState={queryState}
+              value={row?.name}
+              {...queryState}
               valueClassName="text-sm font-semibold text-slate-100"
               skeletonWidth={176}
             />
           </p>
           <p>
             <DisplayText
-              property={{ value: row?.chain }}
-              queryState={queryState}
+              value={row?.chain}
+              {...queryState}
               valueClassName="text-xs text-slate-400"
               skeletonWidth={80}
             />
           </p>
           <DisplayText
-            property={{ value: row?.note }}
-            queryState={queryState}
+            value={row?.note}
+            {...queryState}
             valueClassName="text-xs leading-snug text-slate-500"
             skeletonWidth={288}
           />
@@ -92,8 +94,9 @@ export function VaultRow({ row, queryState }: VaultRowProps) {
       <td className="px-4 py-3">
         <div className="text-sm font-semibold tabular-nums text-slate-100">
           <DisplayPercentageField
-            property={row?.supplyApy}
-            queryState={{ ...row?.supplyApyQueryState, ...queryState }}
+            {...row?.supplyApy}
+            {...row?.supplyApyQueryState}
+            {...queryState}
             symbolClassName="text-slate-300"
           />
         </div>
@@ -112,8 +115,9 @@ export function VaultRow({ row, queryState }: VaultRowProps) {
       <td className="px-4 py-3">
         <div className="text-sm font-semibold tabular-nums text-slate-100">
           <DisplayPercentageField
-            property={row?.utilization}
-            queryState={{ ...row?.utilizationQueryState, ...queryState }}
+            {...row?.utilization}
+            {...row?.utilizationQueryState}
+            {...queryState}
             symbolClassName="text-slate-300"
           />
         </div>

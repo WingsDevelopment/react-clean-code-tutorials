@@ -1,45 +1,39 @@
-import {
-  DisplayTokenValue,
-  type DisplayValueProps,
-  type QueryResponse,
-  type RobustDisplayValue,
-} from "web3-display-components"
+import { DisplayTokenValue, resolvePropertyDisplayProps } from "web3-display-components"
 import type { ViewNumber } from "web3-robust-formatting"
-import { getDisplayValueInjectedComponents, resolveDisplayErrorState } from "./DisplayValue"
+import {
+  getDisplayValueInjectedComponents,
+  resolveDisplayErrorState,
+  type DisplayFieldRobustProps,
+} from "./DisplayValue"
 
-interface DisplayTokenValueFieldProps extends Omit<
-  DisplayValueProps,
-  | "viewValue"
-  | "isError"
-  | "error"
-  | "errorMessage"
-  | "displayErrorAndValue"
-  | "TooltipComponent"
-  | "ErrorIconComponent"
-> {
-  queryState?: QueryResponse
-  property?: RobustDisplayValue<ViewNumber>
-}
+export type DisplayTokenValueFieldProps = DisplayFieldRobustProps<ViewNumber>
 
 /**
- * Wrapper for token/currency values with shared query/error state mapping.
+ * Wrapper for token/currency values with shared robust/query error state mapping.
  * Typically used for fiat-like values (for example "$" amounts).
  */
 export function DisplayTokenValueField({
-  queryState,
-  property,
+  value,
+  warnings,
+  errors,
   ...props
 }: DisplayTokenValueFieldProps) {
-  const { severity, ...resolvedErrorState } = resolveDisplayErrorState(queryState, property)
+  const resolvedInput = {
+    ...props,
+    value,
+    warnings,
+    errors,
+  }
+
+  const { severity, ...resolvedErrorState } = resolveDisplayErrorState(resolvedInput)
   const injectedComponents = getDisplayValueInjectedComponents(severity)
 
   return (
     <DisplayTokenValue
-      {...queryState}
+      {...resolvePropertyDisplayProps(value)}
       {...props}
       {...resolvedErrorState}
       {...injectedComponents}
-      {...property?.value}
     />
   )
 }

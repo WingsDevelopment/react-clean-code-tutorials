@@ -22,8 +22,14 @@ const meta: Meta<typeof DisplayPercentageField> = {
   component: DisplayPercentageField,
   tags: ["autodocs"],
   argTypes: {
-    property: { control: false },
-    queryState: { control: false },
+    value: { control: false },
+    warnings: { control: false },
+    errors: { control: false },
+    isLoading: { control: false },
+    isPending: { control: false },
+    isError: { control: false },
+    error: { control: false },
+    errorMessage: { control: false },
     valueClassName: { control: "text" },
     symbolClassName: { control: "text" },
     containerClassName: { control: "text" },
@@ -67,7 +73,7 @@ export const Playground: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField {...args} property={formattedResult} />
+        <DisplayPercentageField {...args} {...formattedResult} />
       </h5>
     )
   },
@@ -82,7 +88,7 @@ export const FormatSmallAmount: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -97,7 +103,7 @@ export const FormatMidAmount: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -112,7 +118,7 @@ export const FormatTenThousandPlusPercent: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -127,7 +133,7 @@ export const FormatOneMillionPlusPercent: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -142,7 +148,7 @@ export const FormatBigCompactAmount: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -157,7 +163,7 @@ export const FormatZeroAmount: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -172,7 +178,7 @@ export const FormatWrappedInHeading: Story = {
 
     return (
       <h5 className="text-3xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -187,7 +193,7 @@ export const FormatGraySymbolOnly: Story = {
 
     return (
       <h5 className="text-3xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} symbolClassName="text-slate-400" />
+        <DisplayPercentageField {...formattedResult} symbolClassName="text-slate-400" />
       </h5>
     )
   },
@@ -202,7 +208,7 @@ export const EdgeNegativeSingleMinus: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -221,7 +227,7 @@ export const EdgeBelowMinIndicator: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -240,7 +246,7 @@ export const EdgeAboveMaxIndicator: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -255,7 +261,7 @@ export const WarningCoercionStringValue: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -270,7 +276,7 @@ export const WarningCoercionBigIntValue: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -287,7 +293,7 @@ export const WarningCoercionStringMultiplierAndDivider: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -303,7 +309,7 @@ export const WarningMissingRequiredValue: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -319,7 +325,7 @@ export const WarningMissingRequiredValueNull: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -334,7 +340,7 @@ export const ErrorInvalidValueString: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -349,7 +355,7 @@ export const ErrorUnsupportedValueType: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -364,7 +370,7 @@ export const ErrorInvalidValueNumberInfinity: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -379,7 +385,7 @@ export const ErrorInvalidValueNumberNaN: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -395,7 +401,7 @@ export const ErrorInvalidMultiplierType: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -411,7 +417,7 @@ export const ErrorDividerZero: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -427,7 +433,7 @@ export const ErrorInvalidDividerString: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -444,7 +450,7 @@ export const ErrorMissingValueAsHardError: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -459,8 +465,8 @@ export const QueryErrorMessageOnly: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult}
-          queryState={{
+        <DisplayPercentageField {...formattedResult}
+          {...{
             isError: true,
             errorMessage: "Percent API is temporarily unavailable.",
           }}
@@ -479,8 +485,8 @@ export const QueryErrorFromErrorObject: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult}
-          queryState={{
+        <DisplayPercentageField {...formattedResult}
+          {...{
             isError: true,
             error: new Error("RPC provider timeout while fetching percentage."),
           }}
@@ -499,8 +505,8 @@ export const QueryErrorOverridesPropertyWarning: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult}
-          queryState={{
+        <DisplayPercentageField {...formattedResult}
+          {...{
             isError: true,
             errorMessage: "Query layer failed after coercion warning.",
           }}
@@ -519,8 +525,8 @@ export const QueryErrorWithPropertyHardError: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult}
-          queryState={{
+        <DisplayPercentageField {...formattedResult}
+          {...{
             isError: true,
             error: new Error("Transport failed before fallback."),
           }}
@@ -539,7 +545,7 @@ export const PartialDataMissingValueNoDiagnostics: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -558,7 +564,7 @@ export const PartialDataMissingSymbolStillRendersValue: Story = {
     return (
       <h5 className="text-2xl font-semibold leading-none">
         <DisplayPercentageField
-          property={{
+          {...{
             value: valueWithoutSymbol,
             warnings: formattedResult.warnings,
             errors: formattedResult.errors,
@@ -578,8 +584,8 @@ export const LoadingBodySkeleton: Story = {
 
     return (
       <p className="text-base">
-        <DisplayPercentageField property={formattedResult}
-          queryState={{ ...LOADING_QUERY_STATE }}
+        <DisplayPercentageField {...formattedResult}
+          {...LOADING_QUERY_STATE}
           loaderSkeleton
           skeletonWidth={120}
         />
@@ -597,8 +603,8 @@ export const LoadingHeadingSkeleton: Story = {
 
     return (
       <h5 className="text-3xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult}
-          queryState={{ ...LOADING_QUERY_STATE }}
+        <DisplayPercentageField {...formattedResult}
+          {...LOADING_QUERY_STATE}
           loaderSkeleton
           skeletonWidth={220}
         />
@@ -616,8 +622,8 @@ export const PendingSpinner: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult}
-          queryState={{ ...PENDING_QUERY_STATE }}
+        <DisplayPercentageField {...formattedResult}
+          {...PENDING_QUERY_STATE}
           loaderSkeleton={false}
         />
       </h5>
@@ -635,7 +641,7 @@ export const FormatOptionsStandardDecimals4: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -651,7 +657,7 @@ export const FormatLocaleDeDEGrouping: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -667,7 +673,7 @@ export const FormatCompactThresholdForced: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -683,7 +689,7 @@ export const OverrideRequiredFieldsEmptyNoDiagnostics: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },
@@ -698,8 +704,8 @@ export const QueryErrorFromStringPayload: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult}
-          queryState={{
+        <DisplayPercentageField {...formattedResult}
+          {...{
             isError: true,
             error: "RPC returned a string error payload.",
           }}
@@ -728,7 +734,7 @@ export const DisplayPrefixAndIndicatorCustom: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} prefix="≈" indicator="~" />
+        <DisplayPercentageField {...formattedResult} prefix="≈" indicator="~" />
       </h5>
     )
   },
@@ -743,7 +749,7 @@ export const DisplaySymbolPositionBefore: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} symbolPosition="before" />
+        <DisplayPercentageField {...formattedResult} symbolPosition="before" />
       </h5>
     )
   },
@@ -758,7 +764,7 @@ export const WarningDisplayErrorBeforeValue: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} errorPossition="before" />
+        <DisplayPercentageField {...formattedResult} errorPossition="before" />
       </h5>
     )
   },
@@ -775,7 +781,7 @@ export const FormatScaledWithMultiplierDivider: Story = {
 
     return (
       <h5 className="text-2xl font-semibold leading-none">
-        <DisplayPercentageField property={formattedResult} />
+        <DisplayPercentageField {...formattedResult} />
       </h5>
     )
   },

@@ -1,51 +1,39 @@
-import {
-  DisplayPercentage,
-  type DisplayValueProps,
-  type QueryResponse,
-  type RobustDisplayValue,
-} from "web3-display-components"
+import { DisplayPercentage, resolvePropertyDisplayProps } from "web3-display-components"
 import type { ViewPercent } from "web3-robust-formatting"
 import {
   getDisplayValueInjectedComponents,
   resolveDisplayErrorState,
+  type DisplayFieldRobustProps,
 } from "./DisplayValue"
 
-interface DisplayPercentValueProps extends Omit<
-  DisplayValueProps,
-  | "viewValue"
-  | "isError"
-  | "error"
-  | "errorMessage"
-  | "displayErrorAndValue"
-  | "TooltipComponent"
-  | "ErrorIconComponent"
-> {
-  queryState?: QueryResponse
-  property?: RobustDisplayValue<ViewPercent>
-}
+export type DisplayPercentValueProps = DisplayFieldRobustProps<ViewPercent>
 
 /**
  * Wrapper for percentage values with app-level tooltip/icon injection.
- * Keeps page components free from direct DisplayPercentage usage.
+ * Accepts flat props: DisplayValueProps + optional value/warnings/errors.
  */
 export function DisplayPercentValue({
-  queryState,
-  property,
+  value,
+  warnings,
+  errors,
   ...props
 }: DisplayPercentValueProps) {
-  const { severity, ...resolvedErrorState } = resolveDisplayErrorState(
-    queryState,
-    property,
-  )
+  const resolvedInput = {
+    ...props,
+    value,
+    warnings,
+    errors,
+  }
+
+  const { severity, ...resolvedErrorState } = resolveDisplayErrorState(resolvedInput)
   const injectedComponents = getDisplayValueInjectedComponents(severity)
 
   return (
     <DisplayPercentage
-      {...queryState}
+      {...resolvePropertyDisplayProps(value)}
       {...props}
       {...resolvedErrorState}
       {...injectedComponents}
-      {...property?.value}
     />
   )
 }
